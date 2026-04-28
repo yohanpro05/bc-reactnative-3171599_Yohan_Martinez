@@ -1,0 +1,12 @@
+FROM node:20-bookworm
+
+
+RUN apt-get update && apt-get install -y bash git \
+    && npm install -g pnpm expo-cli \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+
+EXPOSE 8081 19000 19001 19002
+
+CMD ["bash"]
