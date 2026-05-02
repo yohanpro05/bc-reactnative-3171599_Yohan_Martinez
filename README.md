@@ -267,6 +267,16 @@ Ver el archivo [LICENSE](LICENSE) para el texto completo.
   Hecho con ❤️ para la comunidad de desarrolladores
 </p>
 
+---
+## 🚀 Entrega de Proyecto - Ferretería El Pro
 
+### 🎥 Evidencia de Funcionamiento
+Puedes ver la demostración de la aplicación en el siguiente enlace:
+👉 **[Ver Video de Demostración (Google Drive)](https://drive.google.com/file/d/1q9SVu66kF-4L2tIeZQ02QAgjcT6JIjmb/view?usp=sharing)**
+
+### 🛠️ Detalles Técnicos
+- **Dominio:** Ferretería
+- **Entidades:** Products, Categories, Sales, Suppliers
+- **Tecnologías:** React Native + TypeScript + Flexbox
 
 
