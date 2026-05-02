@@ -1,10 +1,3 @@
-// ============================================================
-// SCREEN: HomeScreen
-// ============================================================
-// Pantalla principal: header con el nombre del dominio
-// y lista de tarjetas usando ScrollView.
-// ============================================================
-
 import React from 'react';
 import {
   View,
@@ -13,66 +6,57 @@ import {
   StyleSheet,
   SafeAreaView,
   StatusBar,
+  Alert,
 } from 'react-native';
-import { Item } from '../types';
+import { Product } from '../types';
 import { ItemCard } from '../components/ItemCard';
-import { MOCK_ITEMS } from '../data/mockData';
+import { PRODUCTS } from '../data/mockData';
 
 export function HomeScreen(): React.JSX.Element {
-  // TODO: Personaliza el título con el nombre de tu dominio
-  // Ejemplos: 'Mi Biblioteca', 'Farmacia Central', 'GymApp', 'Menú del Día'
-  const DOMAIN_TITLE = 'Mi App';
-  const DOMAIN_SUBTITLE = 'Subtítulo del dominio';
+  // Personalización para el dominio de Ferretería
+  const DOMAIN_TITLE = 'Ferretería El Pro';
+  const DOMAIN_SUBTITLE = 'Herramientas y suministros para expertos';
 
   /**
-   * Handles item card press.
-   * For now, just logs the item name. In week-03 we'll add navigation.
+   * Maneja el evento de presionar una tarjeta.
    */
-  function handleItemPress(item: Item): void {
-    // TODO: Mostrar un alert o log con el nombre del item
-    console.log('Item seleccionado:', item.name);
+  function handleItemPress(product: Product): void {
+    // Requisito de mostrar feedback al usuario
+    Alert.alert(
+      'Detalle del Producto',
+      `Has seleccionado: ${product.name}\nPrecio: $${product.price.toLocaleString('es-CO')}`,
+      [{ text: 'Entendido' }]
+    );
   }
 
   return (
     <SafeAreaView style={styles.safeArea}>
       <StatusBar barStyle="light-content" backgroundColor="#0d1117" />
 
-      {/* ============================================
-          TODO: Implementar el Header de la app
-          Debe mostrar: título del dominio y subtítulo
-          Usa flexDirection: 'column' o 'row' según el diseño
-          ============================================ */}
+      {/* Header de la App */}
       <View style={styles.header}>
-        <Text style={styles.headerTitle}>{DOMAIN_TITLE}</Text>
-        <Text style={styles.headerSubtitle}>{DOMAIN_SUBTITLE}</Text>
+        <View>
+          <Text style={styles.headerTitle}>{DOMAIN_TITLE}</Text>
+          <Text style={styles.headerSubtitle}>{DOMAIN_SUBTITLE}</Text>
+        </View>
+        <View style={styles.badgeContainer}>
+          <Text style={styles.badgeText}>{PRODUCTS.length} Productos</Text>
+        </View>
       </View>
 
-      {/* ============================================
-          TODO: Implementar la lista de tarjetas
-          Usa ScrollView para permitir scroll vertical
-          Renderiza un ItemCard por cada elemento en MOCK_ITEMS
-          ============================================ */}
+      {/* Lista de Tarjetas */}
       <ScrollView
         style={styles.listContainer}
         contentContainerStyle={styles.listContent}
         showsVerticalScrollIndicator={false}
       >
-        {/* TODO: Reemplaza este placeholder por el render real de las tarjetas */}
-        {/* Ejemplo de cómo renderizar la lista:
-        {MOCK_ITEMS.map((item) => (
+        {PRODUCTS.map((product) => (
           <ItemCard
-            key={item.id}
-            item={item}
+            key={product.id}
+            item={product}
             onPress={handleItemPress}
           />
         ))}
-        */}
-        <View style={styles.emptyState}>
-          <Text style={styles.emptyText}>Lista de tarjetas — por implementar</Text>
-          <Text style={styles.emptyHint}>
-            Renderiza los {MOCK_ITEMS.length} items de MOCK_ITEMS usando ItemCard
-          </Text>
-        </View>
       </ScrollView>
     </SafeAreaView>
   );
@@ -83,46 +67,43 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#0d1117',
   },
-
-  // Header — TODO: ajusta según el diseño de tu dominio
   header: {
     paddingHorizontal: 16,
-    paddingVertical: 20,
+    paddingVertical: 24,
     borderBottomWidth: 1,
     borderBottomColor: '#30363d',
+    backgroundColor: '#161b22',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   headerTitle: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    color: '#ffffff',
+    fontSize: 26,
+    fontWeight: '900',
+    color: '#ff9800', 
+    letterSpacing: -0.5,
   },
   headerSubtitle: {
-    fontSize: 14,
+    fontSize: 13,
     color: '#8b949e',
-    marginTop: 4,
+    marginTop: 2,
   },
-
-  // List
+  badgeContainer: {
+    backgroundColor: '#30363d',
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 6,
+  },
+  badgeText: {
+    color: '#ffffff',
+    fontSize: 11,
+    fontWeight: 'bold',
+  },
   listContainer: {
     flex: 1,
   },
   listContent: {
     padding: 16,
-  },
-
-  // Empty state placeholder — elimina cuando implementes la lista real
-  emptyState: {
-    alignItems: 'center',
-    paddingTop: 60,
-    gap: 8,
-  },
-  emptyText: {
-    color: '#8b949e',
-    fontSize: 16,
-  },
-  emptyHint: {
-    color: '#30363d',
-    fontSize: 13,
-    textAlign: 'center',
+    paddingBottom: 40, 
   },
 });

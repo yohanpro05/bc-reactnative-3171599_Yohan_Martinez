@@ -1,10 +1,9 @@
 {
   "expo": {
-    "name": "semana-01-proyecto",
-    "slug": "semana-01-proyecto",
+    "name": "Ferreteria El Pro",
+    "slug": "ferreteria-el-pro",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
     "userInterfaceStyle": "dark",
     "splash": {
       "image": "./assets/splash.png",
@@ -22,6 +21,6 @@
       },
       "package": "com.bootcamp.semana01"
     },
-    "sdkVersion": "53.0.0"
+    "sdkVersion": "54.0.0"
   }
 }
