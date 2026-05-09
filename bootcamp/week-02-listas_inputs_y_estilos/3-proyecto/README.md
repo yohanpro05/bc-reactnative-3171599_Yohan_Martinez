@@ -16,4 +16,4 @@ Esta aplicación está diseñada para el dominio de **Ferretería**. Permite a l
 ## Capturas de Pantalla
 | Vista del Catálogo | Búsqueda Filtrada | Sin Resultados |
 | :---: | :---: | :---: |
-| ![Catálogo](./assets/ss_general.png) | ![Filtro](./assets/ss_filtro.png) | ![Vacío](./assets/ss_empty.png) |
+| ![Catálogo](../0-assets/vista_general.png) | ![Filtro](../0-assets/busqueda_activa.png) | ![Vacío](../0-assets/estado_vacio.png) |
