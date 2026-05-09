@@ -1,68 +1,14 @@
-import { Item } from '../types';
+import { Product } from '../types';
 
-// ============================================
-// MOCK DATA — Semana 02
-// Reemplaza estos items genéricos con datos
-// reales de tu dominio asignado.
-//
-// REQUISITO: mínimo 10 items
-// ============================================
-
-// TODO: Renombra ITEMS a algo descriptivo de tu dominio
-//       Ejemplo: BOOKS, MEDICINES, MEMBERS, DISHES...
-// TODO: Actualiza el tipo Item con los campos de tu dominio
-// TODO: Rellena con datos reales y variados de tu dominio
-
-export const ITEMS: Item[] = [
-  {
-    id: '1',
-    name: 'Elemento 01',
-    // TODO: agregar campos de tu dominio
-  },
-  {
-    id: '2',
-    name: 'Elemento 02',
-    // TODO: agregar campos de tu dominio
-  },
-  {
-    id: '3',
-    name: 'Elemento 03',
-    // TODO: agregar campos de tu dominio
-  },
-  {
-    id: '4',
-    name: 'Elemento 04',
-    // TODO: agregar campos de tu dominio
-  },
-  {
-    id: '5',
-    name: 'Elemento 05',
-    // TODO: agregar campos de tu dominio
-  },
-  {
-    id: '6',
-    name: 'Elemento 06',
-    // TODO: agregar campos de tu dominio
-  },
-  {
-    id: '7',
-    name: 'Elemento 07',
-    // TODO: agregar campos de tu dominio
-  },
-  {
-    id: '8',
-    name: 'Elemento 08',
-    // TODO: agregar campos de tu dominio
-  },
-  {
-    id: '9',
-    name: 'Elemento 09',
-    // TODO: agregar campos de tu dominio
-  },
-  {
-    id: '10',
-    name: 'Elemento 10',
-    // TODO: agregar campos de tu dominio
-  },
-  // TODO: puedes agregar más items para hacer la demo más rica
+export const MOCK_PRODUCTS: Product[] = [
+  { id: '1', name: 'Multímetro Digital Pro', price: 125000, category: 'Electricidad', stock: 10 },
+  { id: '2', name: 'Martillo de Uña 16oz', price: 45000, category: 'Herramientas', stock: 25 },
+  { id: '3', name: 'Juego de Destornilladores (6pz)', price: 65000, category: 'Herramientas', stock: 12 },
+  { id: '4', name: 'Taladro Percutor 1/2', price: 320000, category: 'Electricidad', stock: 5 },
+  { id: '5', name: 'Cinta Métrica 5m', price: 18000, category: 'Medición', stock: 40 },
+  { id: '6', name: 'Alicate de Corte 6"', price: 28000, category: 'Herramientas', stock: 18 },
+  { id: '7', name: 'Bombillo LED 12W (Pack 4)', price: 42000, category: 'Electricidad', stock: 30 },
+  { id: '8', name: 'Llave Inglesa 10"', price: 55000, category: 'Herramientas', stock: 15 },
+  { id: '9', name: 'Pintura Blanca Galón', price: 85000, category: 'Pintura', stock: 20 },
+  { id: '10', name: 'Escalera de Aluminio 3 Pasos', price: 195000, category: 'Hogar', stock: 4 },
 ];

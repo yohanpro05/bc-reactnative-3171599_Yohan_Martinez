@@ -1,16 +1,15 @@
 import React from 'react';
 import { View, Text, Pressable, StyleSheet } from 'react-native';
-import { Item } from '../types';
+import { Product } from '../types';
 import { COLORS, TYPOGRAPHY, SPACING, RADIUS } from '../theme';
 
 interface ItemCardProps {
-  item: Item;
-  onPress: (item: Item) => void;
+  item: Product;
+  onPress: (item: Product) => void;
 }
 
 /**
- * Tarjeta reutilizable para mostrar un elemento del dominio.
- * Personaliza el contenido según los campos de tu interfaz Item.
+ * Tarjeta reutilizable para mostrar un elemento del dominio (Ferretería).
  */
 export function ItemCard({ item, onPress }: ItemCardProps): React.JSX.Element {
   return (
@@ -26,27 +25,19 @@ export function ItemCard({ item, onPress }: ItemCardProps): React.JSX.Element {
       {/* Nombre principal del elemento */}
       <Text style={styles.itemName}>{item.name}</Text>
 
-      {/* TODO: Mostrar los campos adicionales de tu dominio */}
-      {/* Ejemplos:
-        Biblioteca:
-          <Text style={styles.fieldText}>{item.author}</Text>
-          <Text style={styles.fieldText}>{item.available ? 'Disponible' : 'Prestado'}</Text>
+      {/* Mostrar campos adicionales (Ferretería) */}
+      <Text style={styles.fieldText}>Precio: ${item.price.toLocaleString('es-CO')}</Text>
+      <Text style={[
+        styles.fieldText, 
+        item.stock < 5 && { color: COLORS.error, fontWeight: TYPOGRAPHY.weight.bold }
+      ]}>
+        Stock: {item.stock} unidades
+      </Text>
 
-        Farmacia:
-          <Text style={styles.fieldText}>${item.price}</Text>
-          <Text style={styles.fieldText}>Stock: {item.stock}</Text>
-
-        Gimnasio:
-          <Text style={styles.fieldText}>Plan: {item.plan}</Text>
-          <Text style={styles.fieldText}>Vence: {item.expiresAt}</Text>
-      */}
-
-      {/* TODO: Si tu dominio tiene un badge de estado/categoría, agrégalo aquí */}
-      {/* Ejemplo:
-        <View style={styles.badge}>
-          <Text style={styles.badgeText}>{item.category}</Text>
-        </View>
-      */}
+      {/* Badge de categoría */}
+      <View style={styles.badge}>
+        <Text style={styles.badgeText}>{item.category}</Text>
+      </View>
     </Pressable>
   );
 }

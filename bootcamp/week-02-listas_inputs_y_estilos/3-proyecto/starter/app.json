@@ -1,10 +1,9 @@
 {
   "expo": {
-    "name": "mi-app-semana02",
-    "slug": "mi-app-semana02",
+    "name": "Ferreteria El Pro",
+    "slug": "ferreteria-el-pro",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
     "userInterfaceStyle": "dark",
     "newArchEnabled": true,
     "splash": {
@@ -13,13 +12,12 @@
       "backgroundColor": "#0d1117"
     },
     "ios": {
-      "supportsTablet": false
+      "supportsTablet": false,
+      "bundleIdentifier" : "com.bootcamp.semana02"
     },
     "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#0d1117"
-      }
-    }
+     "package": "com.bootcamp.semana02"
+    },
+    "sdkVersion": "54.0.0"
   }
 }
