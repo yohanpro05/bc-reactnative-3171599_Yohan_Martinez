@@ -1,8 +1,4 @@
-// src/screens/FavoritesScreen.tsx
-// Segunda pestaña del Tab Navigator.
-// Muestra una lista de elementos favoritos del dominio.
-
-import { FlatList, Pressable, StyleSheet, Text, View } from 'react-native';
+import { FlatList, StyleSheet, Text, View } from 'react-native';
 
 import { FAVORITES } from '../data/mockData';
 import { COLORS, RADIUS, SPACING, TYPOGRAPHY } from '../theme';
@@ -10,20 +6,26 @@ import type { Item } from '../types';
 
 export function FavoritesScreen(): React.JSX.Element {
   /**
-   * Renderiza cada ítem favorito.
-   * TODO: adaptar el diseño a tu dominio (igual que HomeScreen.renderItem)
+   * Renderiza cada herramienta favorita.
    */
   function renderFavorite({ item }: { item: Item }): React.JSX.Element {
     return (
       <View style={styles.card}>
         {/* Ícono de favorito */}
-        <Text style={styles.heartIcon}>♥</Text>
+        <Text style={styles.heartIcon}>★</Text>
         <View style={styles.cardContent}>
           <Text style={styles.itemName}>{item.name}</Text>
-          <Text style={styles.itemDescription} numberOfLines={2}>
+          
+          {/* Detalles específicos del dominio de Ferretería */}
+          <Text style={styles.itemBrand}>{item.brand}</Text>
+          
+          <Text style={styles.itemDescription} numberOfLines={1}>
             {item.description}
           </Text>
-          {/* TODO: agregar campos de tu dominio igual que en HomeScreen */}
+          
+          <Text style={styles.itemPrice}>
+            ${item.price.toLocaleString('es-CO')}
+          </Text>
         </View>
       </View>
     );
@@ -31,9 +33,9 @@ export function FavoritesScreen(): React.JSX.Element {
 
   return (
     <View style={styles.container}>
-      {/* TODO: cambiar el título según tu dominio */}
-      {/* Ejemplos: "Mis Libros Favoritos", "Medicamentos Guardados", etc. */}
-      <Text style={styles.title}>Favoritos</Text>
+      {/* Título adaptado al dominio */}
+      <Text style={styles.title}>Herramientas Guardadas</Text>
+      
       <FlatList
         data={FAVORITES}
         keyExtractor={(item) => item.id}
@@ -43,8 +45,7 @@ export function FavoritesScreen(): React.JSX.Element {
         ListEmptyComponent={
           <View style={styles.emptyContainer}>
             <Text style={styles.emptyText}>
-              {/* TODO: personalizar el mensaje vacío según tu dominio */}
-              No tienes favoritos todavía
+              No has guardado herramientas favoritas aún
             </Text>
           </View>
         }
@@ -77,13 +78,12 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: COLORS.border,
     flexDirection: 'row',
-    alignItems: 'flex-start',
+    alignItems: 'center',
     gap: SPACING.md,
   },
   heartIcon: {
-    fontSize: TYPOGRAPHY.size.lg,
-    color: COLORS.error,
-    marginTop: 2,
+    fontSize: TYPOGRAPHY.size.xl,
+    color: '#FFD700', // Color dorado para la estrella de favoritos
   },
   cardContent: {
     flex: 1,
@@ -92,12 +92,23 @@ const styles = StyleSheet.create({
     fontSize: TYPOGRAPHY.size.base,
     fontWeight: TYPOGRAPHY.weight.semibold,
     color: COLORS.textPrimary,
-    marginBottom: SPACING.xs,
+  },
+  itemBrand: {
+    fontSize: TYPOGRAPHY.size.xs,
+    color: COLORS.accent,
+    fontWeight: TYPOGRAPHY.weight.medium,
+    textTransform: 'uppercase',
+    marginBottom: 2,
   },
   itemDescription: {
     fontSize: TYPOGRAPHY.size.sm,
     color: COLORS.textSecondary,
-    lineHeight: 18,
+    marginBottom: 4,
+  },
+  itemPrice: {
+    fontSize: TYPOGRAPHY.size.sm,
+    fontWeight: TYPOGRAPHY.weight.bold,
+    color: COLORS.textPrimary,
   },
   separator: {
     height: SPACING.sm,

@@ -1,81 +1,80 @@
-// src/data/mockData.ts
-// Datos de prueba genéricos para la app.
-// TODO: reemplazar con datos de tu dominio asignado.
-
 import type { Item } from '../types';
 
 // ============================================
-// LISTA PRINCIPAL DE ELEMENTOS
+// LISTA PRINCIPAL DE ELEMENTOS (Ferretería)
 // ============================================
-// Estos son datos genéricos de placeholder.
-// Debes reemplazarlos con datos coherentes a tu dominio.
-//
-// Ejemplos:
-//   Biblioteca  → libros con autor, ISBN, páginas
-//   Farmacia    → medicamentos con precio, stock, dosis
-//   Gimnasio    → rutinas con duración, grupos musculares
-//   Restaurante → platillos con precio, ingredientes
-//   Cine        → películas con director, año, género
-
 export const ITEMS: Item[] = [
   {
-    id: '1',
-    name: 'Elemento 01',
-    description: 'Descripción del primer elemento de tu dominio.',
-    // TODO: agregar campos específicos de tu dominio
+    id: 'FER-001',
+    name: 'Taladro Percutor 1/2"',
+    description: 'Motor de alto rendimiento para perforaciones en concreto y madera.',
+    brand: 'DeWalt',
+    price: 450000,
+    stock: 12,
   },
   {
-    id: '2',
-    name: 'Elemento 02',
-    description: 'Descripción del segundo elemento de tu dominio.',
-    // TODO: agregar campos específicos de tu dominio
+    id: 'FER-002',
+    name: 'Juego de Llaves Bristol',
+    description: 'Set de 9 piezas en acero cromo vanadio de alta resistencia.',
+    brand: 'Stanley',
+    price: 35000,
+    stock: 25,
   },
   {
-    id: '3',
-    name: 'Elemento 03',
-    description: 'Descripción del tercer elemento de tu dominio.',
-    // TODO: agregar campos específicos de tu dominio
+    id: 'FER-003',
+    name: 'Pulidora Angular 4-1/2"',
+    description: 'Compacta y potente para trabajos de corte y desbaste profesional.',
+    brand: 'Makita',
+    price: 280000,
+    stock: 4, // Activará el color de advertencia en DetailScreen
   },
   {
-    id: '4',
-    name: 'Elemento 04',
-    description: 'Descripción del cuarto elemento de tu dominio.',
-    // TODO: agregar campos específicos de tu dominio
+    id: 'FER-004',
+    name: 'Martillo de Uña 16oz',
+    description: 'Mango de fibra de vidrio con agarre ergonómico antideslizante.',
+    brand: 'Truper',
+    price: 42000,
+    stock: 50,
   },
   {
-    id: '5',
-    name: 'Elemento 05',
-    description: 'Descripción del quinto elemento de tu dominio.',
-    // TODO: agregar campos específicos de tu dominio
+    id: 'FER-005',
+    name: 'Destornillador de Impacto',
+    description: 'Inalámbrico de 20V con luz LED integrada y 2 baterías.',
+    brand: 'Black+Decker',
+    price: 320000,
+    stock: 8,
   },
   {
-    id: '6',
-    name: 'Elemento 06',
-    description: 'Descripción del sexto elemento de tu dominio.',
-    // TODO: agregar campos específicos de tu dominio
+    id: 'FER-006',
+    name: 'Cinta Métrica 8m/26ft',
+    description: 'Hoja extra ancha con revestimiento de nailon para mayor durabilidad.',
+    brand: 'Lufkin',
+    price: 28500,
+    stock: 15,
   },
   {
-    id: '7',
-    name: 'Elemento 07',
-    description: 'Descripción del séptimo elemento de tu dominio.',
-    // TODO: agregar campos específicos de tu dominio
+    id: 'FER-007',
+    name: 'Nivel de Burbuja 24"',
+    description: 'Estructura de aluminio reforzado con tres burbujas de alta precisión.',
+    brand: 'Irimo',
+    price: 55000,
+    stock: 10,
   },
   {
-    id: '8',
-    name: 'Elemento 08',
-    description: 'Descripción del octavo elemento de tu dominio.',
-    // TODO: agregar campos específicos de tu dominio
+    id: 'FER-008',
+    name: 'Alicate Universal 8"',
+    description: 'Bordes de corte templados por inducción para máxima vida útil.',
+    brand: 'Bahco',
+    price: 68000,
+    stock: 18,
   },
 ];
 
 // ============================================
 // LISTA DE FAVORITOS
 // ============================================
-// Subconjunto de elementos para la pestaña Favorites.
-// TODO: seleccionar elementos coherentes con tu dominio.
-
 export const FAVORITES: Item[] = [
-  ITEMS[0],
-  ITEMS[2],
-  ITEMS[4],
+  ITEMS[0], // Taladro DeWalt
+  ITEMS[2], // Pulidora Makita
+  ITEMS[7], // Alicate Bahco
 ];

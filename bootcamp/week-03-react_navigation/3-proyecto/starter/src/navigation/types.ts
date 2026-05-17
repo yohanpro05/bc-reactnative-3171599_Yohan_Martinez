@@ -1,32 +1,28 @@
 // src/navigation/types.ts
-// Define los tipos de parámetros para cada navigator.
-// Esto habilita autocompletado y verificación en tiempo de compilación.
+import { NavigatorScreenParams } from "@react-navigation/native";
 
 // ============================================
-// TAB NAVIGATOR — pantallas de nivel raíz
-// ============================================
-
-export type RootTabParamList = {
-  // Pestaña principal con Stack interno (lista → detalle)
-  Home: undefined;
-  // Pestaña secundaria de favoritos
-  Favorites: undefined;
-};
-
-// ============================================
-// STACK NAVIGATOR — anidado dentro de la pestaña Home
+// TAB NAVIGATOR — anidado dentro de la pestaña Home
 // ============================================
 
 export type HomeStackParamList = {
-  // Pantalla de lista (sin params)
   HomeList: undefined;
-  // Pantalla de detalle — recibe id y name como mínimo
-  // TODO: agregar campos específicos de tu dominio
-  // Ejemplo (Biblioteca):   author: string; isbn: string;
-  // Ejemplo (Farmacia):     price: number; stock: number;
-  // Ejemplo (Cine):         director: string; year: number;
+  // Detalle de la herramienta con campos de Ferretería
   HomeDetail: {
     id: string;
     name: string;
+    price: number; 
+    brand: string;
+    stock: number;   
   };
+};
+
+// ============================================
+// STACK NAVIGATOR — pantallas de nivel de raiz
+// ============================================
+
+export type RootTabParamList = {
+  // Cambiamos el tipo de Home para que acepte el Stack anidado
+ HomeStack: NavigatorScreenParams<HomeStackParamList>;
+  Favorites: undefined;
 };

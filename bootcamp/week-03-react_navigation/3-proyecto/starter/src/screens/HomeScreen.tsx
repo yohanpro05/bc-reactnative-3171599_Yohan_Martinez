@@ -1,7 +1,3 @@
-// src/screens/HomeScreen.tsx
-// Pantalla de lista — muestra todos los elementos del dominio.
-// Al presionar un ítem navega al DetailScreen pasando los params.
-
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useNavigation } from '@react-navigation/native';
 import {
@@ -17,7 +13,6 @@ import { COLORS, RADIUS, SPACING, TYPOGRAPHY } from '../theme';
 import type { Item } from '../types';
 import type { HomeStackParamList } from '../navigation/types';
 
-// Tipo del navigation hook para este Stack
 type HomeScreenNavigationProp = NativeStackNavigationProp<
   HomeStackParamList,
   'HomeList'
@@ -26,24 +21,16 @@ type HomeScreenNavigationProp = NativeStackNavigationProp<
 export function HomeScreen(): React.JSX.Element {
   const navigation = useNavigation<HomeScreenNavigationProp>();
 
-  /**
-   * Navega al DetailScreen pasando los datos del ítem seleccionado.
-   * TODO: agrega los campos extra de tu dominio a los params
-   * Ejemplo: navigation.navigate('HomeDetail', { id, name, author, isbn })
-   */
   function handleItemPress(item: Item): void {
     navigation.navigate('HomeDetail', {
       id: item.id,
       name: item.name,
-      // TODO: pasar campos adicionales de tu dominio
+      price: item.price,    
+      brand: item.brand,    
+      stock: item.stock,    
     });
   }
 
-  /**
-   * Renderiza cada ítem de la lista.
-   * TODO: adaptar el diseño de la tarjeta a tu dominio.
-   * Puedes mostrar más información (precio, autor, género, etc.)
-   */
   function renderItem({ item }: { item: Item }): React.JSX.Element {
     return (
       <Pressable
@@ -52,16 +39,19 @@ export function HomeScreen(): React.JSX.Element {
           pressed && styles.cardPressed,
         ]}
         onPress={() => handleItemPress(item)}
-        // testID permite encontrar el elemento en tests
         testID={`item-${item.id}`}
       >
-        <Text style={styles.itemName}>{item.name}</Text>
+        <View style={styles.cardHeader}>
+          <Text style={styles.itemName}>{item.name}</Text>
+          <Text style={styles.itemPrice}>${item.price.toLocaleString('es-CO')}</Text>
+        </View>
+
+        <Text style={styles.itemBrand}>{item.brand}</Text>
+        
         <Text style={styles.itemDescription} numberOfLines={2}>
           {item.description}
         </Text>
-        {/* TODO: agregar más información del ítem según tu dominio */}
-        {/* Ejemplo (Farmacia): <Text style={styles.price}>${item.price}</Text> */}
-        {/* Ejemplo (Biblioteca): <Text style={styles.author}>{item.author}</Text> */}
+
         <Text style={styles.chevron}>{'›'}</Text>
       </Pressable>
     );
@@ -69,17 +59,18 @@ export function HomeScreen(): React.JSX.Element {
 
   return (
     <View style={styles.container}>
-      {/* TODO: agregar un header o título descriptivo de tu dominio */}
-      {/* <Text style={styles.header}>Mi Biblioteca</Text> */}
+      <Text style={styles.headerTitle}>Inventario de Herramientas</Text>
       <FlatList
         data={ITEMS}
         keyExtractor={(item) => item.id}
         renderItem={renderItem}
         contentContainerStyle={styles.list}
-        // Separador visual entre ítems
         ItemSeparatorComponent={() => <View style={styles.separator} />}
-        // TODO: agregar ListEmptyComponent para cuando no haya datos
-        // ListEmptyComponent={<Text style={styles.empty}>Sin elementos</Text>}
+        ListEmptyComponent={
+          <View style={styles.emptyContainer}>
+            <Text style={styles.emptyText}>No hay productos en el inventario</Text>
+          </View>
+        }
       />
     </View>
   );
@@ -90,6 +81,14 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: COLORS.background,
   },
+  headerTitle: {
+    fontSize: TYPOGRAPHY.size.lg,
+    fontWeight: TYPOGRAPHY.weight.bold,
+    color: COLORS.textPrimary,
+    paddingHorizontal: SPACING.base,
+    paddingTop: SPACING.base,
+    paddingBottom: SPACING.xs,
+  },
   list: {
     padding: SPACING.base,
   },
@@ -99,6 +98,13 @@ const styles = StyleSheet.create({
     padding: SPACING.base,
     borderWidth: 1,
     borderColor: COLORS.border,
+    position: 'relative',
+  },
+  cardHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginRight: SPACING.lg, 
   },
   cardPressed: {
     opacity: 0.7,
@@ -108,21 +114,42 @@ const styles = StyleSheet.create({
     fontSize: TYPOGRAPHY.size.md,
     fontWeight: TYPOGRAPHY.weight.semibold,
     color: COLORS.textPrimary,
+    flex: 1,
+  },
+  itemPrice: {
+    fontSize: TYPOGRAPHY.size.sm,
+    fontWeight: TYPOGRAPHY.weight.bold,
+    color: COLORS.success,
+  },
+  itemBrand: {
+    fontSize: TYPOGRAPHY.size.xs,
+    color: COLORS.accent,
+    fontWeight: TYPOGRAPHY.weight.medium,
+    textTransform: 'uppercase',
     marginBottom: SPACING.xs,
   },
   itemDescription: {
     fontSize: TYPOGRAPHY.size.sm,
     color: COLORS.textSecondary,
     lineHeight: 18,
+    marginRight: SPACING.lg,
   },
   chevron: {
     position: 'absolute',
     right: SPACING.base,
-    top: '50%',
+    top: '40%',
     fontSize: TYPOGRAPHY.size.xl,
     color: COLORS.textMuted,
   },
   separator: {
     height: SPACING.sm,
   },
+  emptyContainer: {
+    alignItems: 'center',
+    marginTop: SPACING.xxl,
+  },
+  emptyText: {
+    color: COLORS.textMuted,
+    fontSize: TYPOGRAPHY.size.base,
+  }
 });

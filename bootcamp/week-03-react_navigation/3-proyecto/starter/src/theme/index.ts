@@ -1,11 +1,9 @@
 // ============================================
-// THEME — Semana 03
-// Constantes de estilo globales.
-// Úsalas en todos los StyleSheet del proyecto.
+// THEME — Semana 03 (Ferretería Pro)
 // ============================================
 
 export const COLORS = {
-  // Fondos
+  // Fondos oscuros estilo "Dark Mode" para mayor contraste
   background: '#0d1117',
   surface: '#161b22',
   surfaceAlt: '#21262d',
@@ -19,20 +17,18 @@ export const COLORS = {
   textSecondary: '#8b949e',
   textMuted: '#6e7681',
 
-  // Acento — puedes cambiar este color según tu dominio
-  // Ejemplos: '#3fb950' (verde), '#f0883e' (naranja), '#a5d6ff' (azul claro)
-  accent: '#61DAFB',
-  accentDim: '#61DAFB33',
+  // Acento — Naranja Industrial (Coherente con Ferretería)
+  accent: '#f0883e', 
+  accentDim: '#f0883e33',
 
   // Semánticos
-  success: '#3fb950',
-  warning: '#f0883e',
-  error: '#f85149',
+  success: '#3fb950', // Stock lleno
+  warning: '#f0883e', // Stock medio
+  error: '#f85149',   // Sin Stock
   info: '#58a6ff',
 } as const;
 
 export const TYPOGRAPHY = {
-  // Tamaños de fuente
   size: {
     xs: 11,
     sm: 13,
@@ -42,8 +38,6 @@ export const TYPOGRAPHY = {
     xl: 24,
     xxl: 30,
   },
-
-  // Pesos
   weight: {
     regular: '400' as const,
     medium: '500' as const,
