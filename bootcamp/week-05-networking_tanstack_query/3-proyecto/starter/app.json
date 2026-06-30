@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "Week 05 — TanStack Query",
+    "name": "Ferremas — Productos",
     "slug": "week05-tanstack-query",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -13,6 +13,9 @@
       "adaptiveIcon": {
         "backgroundColor": "#0d1117"
       }
+    },
+    "web": {
+      "bundler": "metro"
     }
   }
 }

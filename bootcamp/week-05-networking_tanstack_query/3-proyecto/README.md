@@ -1,114 +1,65 @@
-# Proyecto Semana 05 — Networking y TanStack Query v5
+# Semana 05 — Networking y TanStack Query v5
 
-## 🎯 Objetivo
+**Dominio**: Ferretería
 
-Construir una app que consume una **API REST real** usando Axios y TanStack Query v5. La app mostrará una lista de ítems de tu dominio, navegará al detalle, permitirá crear nuevos ítems con un formulario básico y manejará todos los estados de la red (loading, error, vacío, pull-to-refresh).
+## Descripción
 
----
+App que consume una API REST real usando Axios y TanStack Query v5. Permite listar productos de ferretería desde la API Express (MongoDB), ver su detalle y crear nuevos productos mediante un formulario.
 
-## 📋 Tu Dominio Asignado
-
-**Dominio**: _El instructor te asignará tu dominio_
-
-Todos los aprendices implementan la misma arquitectura (Axios + TanStack Query) aplicada a su contexto único.
-
----
-
-## 💡 Adaptación por Dominio
-
-| Dominio | Endpoint sugerido | Modelo |
-|---------|------------------|--------|
-| Biblioteca | `/books` | `{ id, title, author, year }` |
-| Farmacia | `/products` | `{ id, name, price, stock }` |
-| Gimnasio | `/members` | `{ id, name, plan, joinDate }` |
-| Restaurante | `/dishes` | `{ id, name, price, category }` |
-| Cine | `/movies` | `{ id, title, director, duration }` |
-| Hotel | `/rooms` | `{ id, number, type, pricePerNight }` |
-
-> **API de práctica**: Usa [JSONPlaceholder](https://jsonplaceholder.typicode.com/) (`/posts` como proxy) o [MockAPI](https://mockapi.io/) para crear tu propio endpoint del dominio.
-
----
-
-## ✅ Requisitos Funcionales
-
-1. **Lista**: Pantalla `HomeScreen` con `FlatList` cargada desde la API con `useQuery`
-2. **Detalle**: Navegar a `DetailScreen` mostrando todos los campos del ítem
-3. **Crear**: Formulario en `CreateScreen` que envía un POST con `useMutation`
-4. **Pull-to-refresh**: `FlatList` con `onRefresh={refetch}` y `refreshing={isFetching}`
-5. **Loading state**: `ActivityIndicator` mientras `isLoading === true`
-6. **Error state**: Mensaje + botón "Reintentar" cuando `isError === true`
-7. **Empty state**: `ListEmptyComponent` cuando `data.length === 0`
-
----
-
-## 🏗️ Arquitectura del Proyecto
+## API
 
 ```
-starter/
-├── App.tsx                       # QueryClientProvider + NavigationContainer
-├── app.json
-├── package.json
-├── tsconfig.json
-└── src/
-    ├── services/
-    │   └── api.ts                # Instancia Axios con baseURL
-    ├── hooks/
-    │   ├── useItems.ts           # useQuery para listar ítems
-    │   └── useCreateItem.ts      # useMutation para crear ítems
-    ├── navigation/
-    │   ├── types.ts              # Tipos de navegación
-    │   └── RootNavigator.tsx     # Stack con 3 pantallas
-    ├── screens/
-    │   ├── HomeScreen.tsx        # Lista con useQuery
-    │   ├── DetailScreen.tsx      # Detalle del ítem
-    │   └── CreateScreen.tsx      # Formulario de creación
-    ├── types/
-    │   └── index.ts              # Interfaces del dominio
-    └── theme/
-        └── index.ts              # COLORS, TYPOGRAPHY, SPACING
+http://192.168.1.12:3000/api/v1
 ```
 
----
+| Endpoint | Método | Descripción |
+|----------|--------|-------------|
+| `/products` | GET | Lista paginada de productos |
+| `/products/:id` | GET | Detalle de un producto |
+| `/products` | POST | Crear un nuevo producto |
+| `/categories` | GET | Lista de categorías |
 
-## 🛠️ Entregables
+## Hooks
 
-1. App funcional en simulador iOS y/o Android
-2. `useQuery` consumiendo al menos un endpoint real de tu dominio
-3. `useMutation` con `invalidateQueries` en `onSuccess`
-4. Manejo de loading, error y empty states en `HomeScreen`
-5. Pull-to-refresh funcional
-6. README con descripción de tu dominio, API usada y capturas de pantalla
+- **`useProducts()`** — `useQuery` que obtiene la lista con caching y staleTime de 2 min
+- **`useProductById(id)`** — `useQuery` para detalle individual (solo corre si hay id)
+- **`useCreateProduct()`** — `useMutation` con `invalidateQueries` en `onSuccess`
+- **`useCategories()`** — `useQuery` para poblar el selector de categorías
 
----
+## Screens
 
-## 📊 Criterios de Evaluación
+| Pantalla | Funcionalidad |
+|----------|---------------|
+| **HomeScreen** | FlatList con datos reales, pull-to-refresh, loading/error/empty states |
+| **DetailScreen** | ScrollView con precio, stock, categoría, estado, descripción |
+| **CreateScreen** | Formulario con nombre, SKU, precio, stock, categoría (chips), descripción |
 
-Ver [rubrica-evaluacion.md](../../rubrica-evaluacion.md)
+## Screenshots
 
+| # | Pantalla |
+|---|----------|
+| 1 | ![lista-productos](screenshots/01-lista-productos.png) |
+| 2 | ![detalle-producto](screenshots/02-detalle-producto.png) |
+| 3 | ![crear-producto](screenshots/03-crear-producto.png) |
+| 4 | ![crear-con-categoria](screenshots/04-crear-con-categoria.png) |
+| 5 | ![error-state](screenshots/05-error-state.png) |
+| 6 | ![api-reintentar](screenshots/06-api-reintentar.png) |
 
-Implementar los conceptos de **Networking y TanStack Query v5** aplicados a tu dominio asignado.
+## Tecnologías
 
-## 📋 Tu Dominio Asignado
+- Expo SDK 54
+- React Native 0.81
+- TanStack Query v5
+- Axios
+- React Navigation 7 (Native Stack)
+- TypeScript
 
-**Dominio**: [El instructor te asignará tu dominio único al inicio del bootcamp]
-
-> 📌 Recuerda: tu implementación debe ser coherente con tu dominio.
-> No copies implementaciones de otros aprendices.
-
-## 🚀 Cómo ejecutar
+## Ejecutar
 
 ```bash
 cd starter
 pnpm install
-pnpm start
+npx expo start --clear
 ```
 
-## 🛠️ Entregables
-
-1. App funcional en simulador iOS y/o Android
-2. Código adaptado a tu dominio
-3. README actualizado con descripción de tu implementación
-
-## 📊 Criterios de Evaluación
-
-Ver [../../rubrica-evaluacion.md](../../rubrica-evaluacion.md)
+Apretar `w` para web o escanear QR con Expo Go. Asegurarse que la API Express esté corriendo en `http://192.168.1.12:3000`.
