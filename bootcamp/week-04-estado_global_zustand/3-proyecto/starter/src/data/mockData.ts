@@ -1,57 +1,84 @@
-// src/data/mockData.ts
-// Datos de ejemplo genéricos para el proyecto.
-// El estudiante debe reemplazar estos datos con los de su dominio asignado.
+import type { Product } from '../types';
 
-import type { Item } from '../types';
-
-// ============================================================
-// LISTA DE ÍTEMS
-// ============================================================
-// TODO: reemplaza estos ítems con los de tu dominio asignado.
-//   Biblioteca  → libros con author, year, genre
-//   Farmacia    → medicamentos con price, stock, prescription
-//   Gimnasio    → clases con instructor, schedule, capacity
-//   Restaurante → platillos con price, category, spiceLevel
-//   Cine        → películas con director, duration, genre
-export const ITEMS: Item[] = [
+export const PRODUCTS: Product[] = [
   {
     id: '1',
-    name: 'Ítem Uno',
-    description: 'Descripción detallada del primer ítem. Adapta este campo a tu dominio.',
+    name: 'Taladro Percutor',
+    description: 'Taladro percutor inalámbrico 18V con mandril automático, ideal para perforar concreto y madera.',
+    price: 15990,
+    category: 'Herramientas',
+    stock: 15,
   },
   {
     id: '2',
-    name: 'Ítem Dos',
-    description: 'Descripción detallada del segundo ítem. Adapta este campo a tu dominio.',
+    name: 'Llave Inglesa 12"',
+    description: 'Llave ajustable de acero forjado con mango ergonómico antideslizante.',
+    price: 8900,
+    category: 'Herramientas',
+    stock: 25,
   },
   {
     id: '3',
-    name: 'Ítem Tres',
-    description: 'Descripción detallada del tercer ítem. Adapta este campo a tu dominio.',
+    name: 'Cable Eléctrico 10m',
+    description: 'Cable eléctrico THW 12 AWG para instalaciones residenciales, 10 metros.',
+    price: 3500,
+    category: 'Materiales Eléctricos',
+    stock: 50,
   },
   {
     id: '4',
-    name: 'Ítem Cuatro',
-    description: 'Descripción detallada del cuarto ítem. Adapta este campo a tu dominio.',
+    name: 'Tubería PVC 1"',
+    description: 'Tubería de PVC sanitario 1 pulgada x 3 metros, para instalaciones de fontanería.',
+    price: 2900,
+    category: 'Fontanería',
+    stock: 40,
   },
   {
     id: '5',
-    name: 'Ítem Cinco',
-    description: 'Descripción detallada del quinto ítem. Adapta este campo a tu dominio.',
+    name: 'Pintura Látex Blanca 4L',
+    description: 'Pintura látex lavable color blanco, cubriente y de secado rápido, 4 litros.',
+    price: 13200,
+    category: 'Pinturas',
+    stock: 20,
   },
   {
     id: '6',
-    name: 'Ítem Seis',
-    description: 'Descripción detallada del sexto ítem. Adapta este campo a tu dominio.',
+    name: 'Tornillos Acero 100u',
+    description: 'Tornillos autorroscantes de acero inoxidable #10 x 1/2, bolsa de 100 unidades.',
+    price: 1900,
+    category: 'Fijaciones',
+    stock: 100,
   },
   {
     id: '7',
-    name: 'Ítem Siete',
-    description: 'Descripción detallada del séptimo ítem. Adapta este campo a tu dominio.',
+    name: 'Manguera Jardín 15m',
+    description: 'Manguera reforzada de PVC 5/8 pulgada, 15 metros con conector universal.',
+    price: 9800,
+    category: 'Jardín',
+    stock: 12,
   },
   {
     id: '8',
-    name: 'Ítem Ocho',
-    description: 'Descripción detallada del octavo ítem. Adapta este campo a tu dominio.',
+    name: 'Candado Seguridad',
+    description: 'Candado de acero endurecido con arco galvanizado, llaves incluidas.',
+    price: 4800,
+    category: 'Seguridad',
+    stock: 30,
+  },
+  {
+    id: '9',
+    name: 'Cinta Métrica 5m',
+    description: 'Cinta métrica retráctil 5 metros con cierre de freno y clip para cinturón.',
+    price: 3600,
+    category: 'Herramientas',
+    stock: 35,
+  },
+  {
+    id: '10',
+    name: 'Interruptor Doble',
+    description: 'Interruptor doble tipo palanca 10A, para instalaciones eléctricas residenciales.',
+    price: 2400,
+    category: 'Materiales Eléctricos',
+    stock: 45,
   },
 ];

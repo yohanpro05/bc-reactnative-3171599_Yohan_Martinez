@@ -1,8 +1,3 @@
-// src/screens/SavedScreen.tsx
-// Pantalla de guardados: muestra todos los ítems que el usuario guardó.
-// Lee el estado directamente desde el savedStore (sin props).
-// Demuestra que el mismo store Zustand mantiene consistencia entre tabs.
-
 import React from 'react';
 import {
   FlatList,
@@ -14,17 +9,11 @@ import {
 } from 'react-native';
 
 import { COLORS, RADIUS, SPACING, TYPOGRAPHY } from '../theme';
-import type { Item } from '../types';
-
-// TODO: importar el store
-// import { useSavedStore } from '../stores/savedStore';
-
-// ============================================================
-// SUB-COMPONENTE: SavedItem
-// ============================================================
+import { useSavedStore } from '../stores/savedStore';
+import type { Product } from '../types';
 
 interface SavedItemProps {
-  item: Item;
+  item: Product;
   onRemove: () => void;
 }
 
@@ -39,9 +28,7 @@ function SavedItem({ item, onRemove }: SavedItemProps): React.JSX.Element {
         <Text style={styles.cardTitle} numberOfLines={1}>
           {item.name}
         </Text>
-        <Text style={styles.cardDescription} numberOfLines={1}>
-          {item.description}
-        </Text>
+        <Text style={styles.cardPrice}>${item.price.toLocaleString()}</Text>
       </View>
 
       <Pressable
@@ -55,22 +42,12 @@ function SavedItem({ item, onRemove }: SavedItemProps): React.JSX.Element {
   );
 }
 
-// ============================================================
-// PANTALLA: SavedScreen
-// ============================================================
-
 export function SavedScreen(): React.JSX.Element {
-  // TODO: conectar con el savedStore
-  // const items     = useSavedStore((state) => state.items);
-  // const removeItem = useSavedStore((state) => state.removeItem);
-  // const clearAll  = useSavedStore((state) => state.clearAll);
+  const items = useSavedStore((state) => state.items);
+  const removeItem = useSavedStore((state) => state.removeItem);
+  const clearAll = useSavedStore((state) => state.clearAll);
 
-  // Placeholder hasta que el store esté implementado
-  const items: Item[] = [];
-  const removeItem = (_id: string): void => {};
-  const clearAll = (): void => {};
-
-  const renderItem: ListRenderItem<Item> = ({ item }) => (
+  const renderItem: ListRenderItem<Product> = ({ item }) => (
     <SavedItem item={item} onRemove={() => removeItem(item.id)} />
   );
 
@@ -88,7 +65,6 @@ export function SavedScreen(): React.JSX.Element {
               <Text style={styles.sectionLabel}>
                 {items.length} guardado{items.length !== 1 ? 's' : ''}
               </Text>
-              {/* TODO: botón "Limpiar todo" usando clearAll del store */}
               <Pressable onPress={clearAll} style={styles.clearButton}>
                 <Text style={styles.clearButtonText}>Limpiar todo</Text>
               </Pressable>
@@ -100,7 +76,7 @@ export function SavedScreen(): React.JSX.Element {
             <Text style={styles.emptyIcon}>☆</Text>
             <Text style={styles.emptyTitle}>Sin guardados aún</Text>
             <Text style={styles.emptySubtitle}>
-              Ve a la lista principal y guarda tus ítems favoritos.
+              Ve a la lista de productos y guarda tus favoritos.
             </Text>
           </View>
         }
@@ -108,10 +84,6 @@ export function SavedScreen(): React.JSX.Element {
     </View>
   );
 }
-
-// ============================================================
-// ESTILOS
-// ============================================================
 
 const styles = StyleSheet.create({
   container: {
@@ -174,8 +146,10 @@ const styles = StyleSheet.create({
     ...TYPOGRAPHY.body,
     fontWeight: '600',
   },
-  cardDescription: {
+  cardPrice: {
     ...TYPOGRAPHY.caption,
+    color: COLORS.accent,
+    fontWeight: '600',
   },
   removeButton: {
     width: 32,

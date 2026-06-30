@@ -1,107 +1,52 @@
-# Proyecto Semana 04 — Estado Global con Zustand
+# Semana 04 — Estado Global con Zustand
 
-## 🎯 Objetivo
+**Dominio**: Ferretería
 
-Construir una app con **navegación Tab + Stack** y **estado global Zustand** aplicado a tu dominio. La segunda pestaña debe mostrar ítems "guardados" o un "carrito" cuyo estado viene de un store Zustand compartido con la pantalla principal.
+## Descripción
 
----
+App móvil con navegación por tabs y estado global gestionado con Zustand. Permite explorar productos de ferretería, ver su detalle y guardarlos en una lista de favoritos que persiste entre pantallas mediante un store compartido.
 
-## 📋 Tu Dominio Asignado
+## Store Zustand: `useSavedStore`
 
-**Dominio**: [El instructor te asignará tu dominio único al inicio del bootcamp]
+- **`items`**: lista de productos guardados
+- **`addItem(product)`**: agrega un producto (sin duplicados)
+- **`removeItem(id)`**: elimina por id
+- **`clearAll()`**: vacía la lista
+- **`isItemSaved(id)`**: helper para el botón Guardar/Quitar
 
-> 📌 Tu implementación debe ser coherente con tu dominio. No copies implementaciones de otros aprendices.
+Los selectores se usan individualmente en cada componente para evitar re-renders innecesarios.
 
-### 💡 Ejemplos de Adaptación por Dominio
+## Navegación
 
-| Dominio | Pestaña Items (Home) | Store Zustand | Pestaña Guardados |
-|---|---|---|---|
-| Biblioteca | Lista de libros | `useReadingListStore` | Lista de lectura |
-| Farmacia | Catálogo de medicamentos | `useCartStore` | Carrito de compra |
-| Gimnasio | Lista de rutinas | `useFavoritesStore` | Rutinas favoritas |
-| Restaurante | Menú del restaurante | `useOrderStore` | Mi pedido |
-| Cine | Cartelera actual | `useMyListStore` | Mi lista de pelis |
+- **Tab Navigator** con dos pestañas: `Productos` y `Guardados`
+- **Stack anidado** en Productos: `HomeList` → `HomeDetail`
+- **Badge dinámico** en el tab Guardados que refleja el conteo del store
 
----
+## Screenshots
 
-## 🗂️ Estructura del Proyecto
+| # | Pantalla |
+|---|----------|
+| 1 | ![lista-productos](screenshots/01-lista-productos.png) |
+| 2 | ![detalle-producto](screenshots/02-detalle-producto.png) |
+| 3 | ![producto-guardado](screenshots/03-producto-guardado.png) |
+| 4 | ![badge-guardados](screenshots/04-badge-guardados.png) |
+| 5 | ![lista-guardados](screenshots/05-lista-guardados.png) |
+| 6 | ![quitar-guardado](screenshots/06-quitar-guardado.png) |
+| 7 | ![estado-vacio](screenshots/07-estado-vacio.png) |
 
-```
-starter/
-├── App.tsx
-├── app.json
-├── package.json
-├── tsconfig.json
-└── src/
-    ├── navigation/
-    │   ├── RootNavigator.tsx    ← Tab + Stack anidado
-    │   └── types.ts             ← RootTabParamList, HomeStackParamList
-    ├── screens/
-    │   ├── HomeScreen.tsx       ← lista con botón "Guardar"
-    │   ├── DetailScreen.tsx     ← detalle + botón "Guardar/Quitar"
-    │   └── SavedScreen.tsx      ← segunda pestaña (desde el store)
-    ├── stores/
-    │   ├── itemsStore.ts        ← store del detalle seleccionado
-    │   └── savedStore.ts        ← store de ítems guardados (TODO)
-    ├── data/
-    │   └── mockData.ts
-    ├── types/
-    │   └── index.ts
-    └── theme/
-        └── index.ts
-```
+## Tecnologías
 
----
+- Expo SDK 54
+- React Native 0.81
+- Zustand 5
+- React Navigation 7 (Bottom Tabs + Native Stack)
+- TypeScript
 
-## ✅ Requisitos Funcionales
-
-1. **Tab Navigator** con al menos dos pestañas: `Home` y `Guardados`
-2. **Stack anidado en Home**: lista → detalle con params tipados
-3. **Store Zustand del carrito/guardados**: métodos para agregar, eliminar y limpiar
-4. **Badge en tab** con conteo en tiempo real desde el store (sin prop drilling)
-5. **Detalle** muestra botón "Guardar" / "Quitar" que lee y escribe el store
-
-### Requisitos de Código
-
-- Creado con `create<Interface>()` sin `any`
-- Selectores específicos (no `useStore()` sin selector)
-- Mínimo 2 acciones en el store de guardados
-- TypeScript sin errores de compilación
-
----
-
-## 🚀 Cómo ejecutar
+## Ejecutar
 
 ```bash
 cd starter
-pnpm install
-pnpm start
+npx expo start --clear
 ```
 
----
-
-## 🛠️ Entregables
-
-1. App con Tab + Stack funcional y estado Zustand compartido entre pestañas
-2. Badge en el tab bar actualizado en tiempo real
-3. TypeScript sin errores, sin `any`
-4. Código y datos adaptados a tu dominio asignado
-5. Capturas de pantalla de Home, Detail y Saved screens
-
----
-
-## 📊 Criterios de Evaluación
-
-Ver [rubrica-evaluacion.md](../../rubrica-evaluacion.md) — sección **Producto 📦 (30%)**
-pnpm start
-```
-
-## 🛠️ Entregables
-
-1. App funcional en simulador iOS y/o Android
-2. Código adaptado a tu dominio
-3. README actualizado con descripción de tu implementación
-
-## 📊 Criterios de Evaluación
-
-Ver [../../rubrica-evaluacion.md](../../rubrica-evaluacion.md)
+Apretar `w` para web o escanear QR con Expo Go.
