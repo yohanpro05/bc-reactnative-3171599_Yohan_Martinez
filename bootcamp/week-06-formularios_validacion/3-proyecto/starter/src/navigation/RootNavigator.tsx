@@ -1,6 +1,3 @@
-// src/navigation/RootNavigator.tsx
-// Stack principal: Home → Create (modal) | Home → Edit (push)
-
 import React from 'react';
 import { Pressable, Text } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -20,16 +17,16 @@ const headerTitleStyle = { color: COLORS.text, fontWeight: '700' as const };
 
 export function RootNavigator(): React.JSX.Element {
   return (
-    <Stack.Navigator screenOptions={{ headerStyle, headerTitleStyle }}>
+    <Stack.Navigator screenOptions={{ headerStyle, headerTitleStyle, contentStyle: { backgroundColor: COLORS.background } }}>
       <Stack.Screen
         name="Home"
         component={HomeScreen}
-        options={{ title: 'Ítems', headerRight: () => <AddButton /> }}
+        options={{ title: 'Productos', headerRight: () => <AddButton /> }}
       />
       <Stack.Screen
         name="Create"
         component={CreateScreen}
-        options={{ title: 'Nuevo ítem', presentation: 'modal' }}
+        options={{ title: 'Nuevo producto', presentation: 'modal' }}
       />
       <Stack.Screen
         name="Edit"
@@ -40,7 +37,6 @@ export function RootNavigator(): React.JSX.Element {
   );
 }
 
-// Botón "+" en el header de Home
 function AddButton(): React.JSX.Element {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   return (

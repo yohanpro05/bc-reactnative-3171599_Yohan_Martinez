@@ -1,77 +1,70 @@
-# Proyecto Semana 06 — Formularios con React Hook Form + Zod
+# Semana 06 — Formularios con React Hook Form + Zod
 
-## 🎯 Objetivo
+**Dominio**: Ferretería
 
-Implementar formularios Create y Edit con validación Zod aplicados a tu **dominio asignado**. Cada aprendiz trabaja sobre un contexto diferente para garantizar implementaciones originales.
+## Descripción
 
-## 📋 Tu Dominio Asignado
+App con formularios Create y Edit con validación Zod aplicados al dominio de ferretería. Usa React Hook Form + `@hookform/resolvers` para manejar estados, validación en tiempo real y reset de formularios.
 
-**Dominio**: [El instructor te asignará tu dominio único al inicio del bootcamp]
+## Schema Zod (`productSchema`)
 
-> 📌 Tu implementación debe ser coherente con tu dominio. No copies implementaciones de otros aprendices.
-
-## 💡 Ejemplos de Adaptación por Dominio
-
-| Dominio | Campos del formulario | Validaciones |
-|---------|----------------------|-------------|
-| Biblioteca | Título, autor, ISBN, páginas | ISBN 13 chars, páginas > 0 |
-| Farmacia | Nombre, precio, stock | Precio > 0, stock entero ≥ 0 |
-| Gimnasio | Nombre miembro, email, plan | Email válido, plan enum |
-| Restaurante | Nombre platillo, precio, categoría | Precio > 0, categoría requerida |
-| Hotel | Nombre habitación, precio/noche, capacidad | Precio > 0, capacidad 1-10 |
-
-## 🗂️ Estructura del Starter
-
-```
-starter/
-├── App.tsx                          — QueryClientProvider + NavigationContainer
-├── app.json
-├── package.json
-├── tsconfig.json
-└── src/
-    ├── navigation/
-    │   ├── types.ts                 — RootStackParamList
-    │   └── RootNavigator.tsx        — Stack: Home, Create, Edit
-    ├── schemas/
-    │   └── itemSchema.ts            — z.object + ItemFormData (TODO: adaptar)
-    ├── components/
-    │   └── FormField.tsx            — Controller + TextInput + error (TODO)
-    ├── screens/
-    │   ├── HomeScreen.tsx           — lista con TanStack Query
-    │   ├── CreateScreen.tsx         — formulario Create (TODO: conectar)
-    │   └── EditScreen.tsx           — formulario Edit con defaultValues (TODO)
-    ├── hooks/
-    │   └── useItems.ts              — useItems, useCreateItem, useUpdateItem
-    ├── services/
-    │   └── api.ts                   — Axios instance
-    ├── types/
-    │   └── index.ts                 — Item, CreateItemPayload, UpdateItemPayload
-    └── theme/
-        └── index.ts
+```typescript
+name:        z.string().min(1).max(150)
+description: z.string().max(500).optional()
+price:       z.coerce.number().positive()
+stock:       z.coerce.number().int().min(0)
+sku:         z.string().min(1).max(50)
+category:    z.string().min(1)
 ```
 
-## ✅ Requisitos Funcionales
+## Componentes
 
-1. **`FormField` genérico**: componente que encapsule `Controller` + `TextInput` + mensaje de error. Reutilizado en Create y Edit.  
-2. **`CreateScreen`**: formulario con al menos 2 campos, validación Zod, mutations con TanStack Query (`useCreateItem`). Navega atrás en `onSuccess`.  
-3. **`EditScreen`**: mismo formulario pero con `defaultValues` cargados desde `useItemById`. Usa `reset()` en `useEffect` cuando lleguen los datos.  
-4. **Validación activa**: errores visibles bajo cada campo incorrecto al intentar enviar.  
-5. **Estado de carga**: botón deshabilitado y spinner durante `isSubmitting`.
+- **`FormField`** — Componente genérico reutilizable que encapsula `Controller` + `TextInput` + mensaje de error. Usado en Create y Edit.
 
-## 🚀 Cómo ejecutar
+## Pantallas
+
+| Pantalla | Funcionalidad |
+|----------|---------------|
+| **HomeScreen** | Lista de productos con navegación a Edit |
+| **CreateScreen** | Formulario con RHF + Zod + categorías en chips + `useCreateItem` |
+| **EditScreen** | Carga datos con `useItemById`, `reset()` en useEffect, guarda con `useUpdateItem` |
+
+## Hooks
+
+- `useItems()` — lista
+- `useItemById(id)` — detalle (para Edit)
+- `useCreateItem()` — mutation con `invalidateQueries`
+- `useUpdateItem()` — mutation con PUT, invalida lista e ítem individual
+- `useCategories()` — categorías para el selector
+
+## Screenshots
+
+| # | Pantalla |
+|---|----------|
+| 1 | ![lista-productos](screenshots/01-lista-productos.png) |
+| 2 | ![crear-producto](screenshots/02-crear-producto.png) |
+| 3 | ![crear-validacion](screenshots/03-crear-validacion.png) |
+| 4 | ![crear-con-datos](screenshots/04-crear-con-datos.png) |
+| 5 | ![producto-creado](screenshots/05-producto-creado.png) |
+| 6 | ![editar-producto](screenshots/06-editar-producto.png) |
+| 7 | ![editar-con-cambios](screenshots/07-editar-con-cambios.png) |
+
+## Tecnologías
+
+- Expo SDK 54
+- React Native 0.81
+- React Hook Form + Zod
+- TanStack Query v5
+- Axios
+- React Navigation 7
+- TypeScript
+
+## Ejecutar
 
 ```bash
 cd starter
 pnpm install
-pnpm start
+npx expo start --clear
 ```
 
-## 🛠️ Entregables
-
-1. App funcional en simulador iOS y/o Android
-2. Código adaptado a tu dominio (nombre de campos, validaciones coherentes)
-3. `FormField` reutilizado en ambas pantallas
-
-## 📊 Criterios de Evaluación
-
-Ver [../../rubrica-evaluacion.md](../../rubrica-evaluacion.md)
+Apretar `w` para web. API Express en `http://192.168.1.12:3000/api/v1`.

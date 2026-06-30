@@ -1,31 +1,34 @@
-// src/schemas/itemSchema.ts
-// Schema Zod para el formulario de ítem.
-// TODO: adaptar los campos a tu dominio asignado.
-
 import { z } from 'zod';
 
-export const itemSchema = z.object({
-  // TODO: renombra y ajusta los campos a tu dominio
-  // Ejemplos:
-  // Biblioteca  → title (título del libro), author (autor), pages (z.coerce.number)
-  // Farmacia    → name (nombre), price (z.coerce.number), stock (z.coerce.number)
-  // Restaurante → name (platillo), description, price (z.coerce.number)
-
-  title: z
+export const productSchema = z.object({
+  name: z
     .string()
     .min(1, 'El nombre es requerido')
-    .max(80, 'Máx. 80 caracteres'),
+    .max(150, 'Máx. 150 caracteres'),
 
-  body: z
+  description: z
     .string()
     .max(500, 'Máx. 500 caracteres')
     .optional()
     .or(z.literal('')),
 
-  // TODO: agrega campos numéricos con z.coerce.number()
-  // Ejemplo:
-  // price: z.coerce.number().positive('El precio debe ser mayor que 0'),
+  price: z.coerce
+    .number()
+    .positive('El precio debe ser mayor a 0'),
+
+  stock: z.coerce
+    .number()
+    .int()
+    .min(0, 'El stock no puede ser negativo'),
+
+  sku: z
+    .string()
+    .min(1, 'El SKU es requerido')
+    .max(50, 'Máx. 50 caracteres'),
+
+  category: z
+    .string()
+    .min(1, 'Seleccioná una categoría'),
 });
 
-// El tipo TypeScript se infiere automáticamente — sin interfaz duplicada
-export type ItemFormData = z.infer<typeof itemSchema>;
+export type ProductFormData = z.infer<typeof productSchema>;

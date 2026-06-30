@@ -1,23 +1,36 @@
-// src/types/index.ts
-// Tipos de datos del dominio — adapta los campos a tu dominio asignado
-
-export interface Item {
-  id: number;
-  title: string;   // TODO: renombrar al concepto de tu dominio (ej. name, productName)
-  body: string;    // TODO: renombrar (ej. description, notes)
-  userId: number;
+export interface Category {
+  _id: string;
+  name: string;
 }
 
-// Payload para crear un ítem nuevo (sin id — lo asigna el servidor)
-export interface CreateItemPayload {
-  title: string;
-  body: string;
-  userId: number;
+export interface Product {
+  _id: string;
+  name: string;
+  description?: string;
+  price: number;
+  stock: number;
+  sku: string;
+  category: Category | string;
+  active: boolean;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
-// Payload para actualizar (id requerido + campos editables)
-export interface UpdateItemPayload {
-  id: number;
-  title: string;
-  body: string;
+export interface CreateProductPayload {
+  name: string;
+  description?: string;
+  price: number;
+  stock: number;
+  sku: string;
+  category: string;
+}
+
+export interface UpdateProductPayload {
+  id: string;
+  name: string;
+  description?: string;
+  price: number;
+  stock: number;
+  sku: string;
+  category: string;
 }

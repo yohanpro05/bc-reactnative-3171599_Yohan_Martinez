@@ -1,7 +1,3 @@
-// src/screens/HomeScreen.tsx
-// Lista de ítems con pull-to-refresh y acceso a Create / Edit.
-// Esta pantalla ya está funcional — no requiere TODOs.
-
 import React from 'react';
 import {
   ActivityIndicator,
@@ -16,14 +12,10 @@ import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 import { COLORS, RADIUS, SPACING, TYPOGRAPHY } from '../theme';
 import { useItems } from '../hooks/useItems';
-import type { Item } from '../types';
+import type { Product } from '../types';
 import type { RootStackParamList } from '../navigation/types';
 
 type HomeNavProp = NativeStackNavigationProp<RootStackParamList, 'Home'>;
-
-// ──────────────────────────────────────────────
-// PANTALLA
-// ──────────────────────────────────────────────
 
 export function HomeScreen(): React.JSX.Element {
   const navigation = useNavigation<HomeNavProp>();
@@ -41,7 +33,7 @@ export function HomeScreen(): React.JSX.Element {
     return (
       <View style={styles.centered}>
         <Text style={styles.errorText}>No se pudo cargar la lista</Text>
-        <Pressable style={styles.retryBtn} onPress={() => void refetch()}>
+        <Pressable style={styles.retryBtn} onPress={() => refetch()}>
           <Text style={styles.retryText}>Reintentar</Text>
         </Pressable>
       </View>
@@ -53,20 +45,20 @@ export function HomeScreen(): React.JSX.Element {
       style={styles.list}
       contentContainerStyle={styles.content}
       data={data ?? []}
-      keyExtractor={(item) => String(item.id)}
+      keyExtractor={(item) => item._id}
       refreshing={isFetching && !isLoading}
       onRefresh={refetch}
-      ListEmptyComponent={<Text style={styles.empty}>No hay ítems aún</Text>}
+      ListEmptyComponent={<Text style={styles.empty}>No hay productos aún</Text>}
       ListHeaderComponent={
         data?.length
-          ? <Text style={styles.count}>{data.length} ítems</Text>
+          ? <Text style={styles.count}>{data.length} productos</Text>
           : null
       }
       renderItem={({ item }) => (
-        <ItemRow
+        <ProductRow
           item={item}
           onPress={() =>
-            navigation.navigate('Edit', { id: item.id, name: item.title })
+            navigation.navigate('Edit', { id: item._id, name: item.name })
           }
         />
       )}
@@ -74,40 +66,37 @@ export function HomeScreen(): React.JSX.Element {
   );
 }
 
-// ──────────────────────────────────────────────
-// SUB-COMPONENTE: fila de ítem
-// ──────────────────────────────────────────────
+interface ProductRowProps { item: Product; onPress: () => void }
 
-interface ItemRowProps { item: Item; onPress: () => void }
+function ProductRow({ item, onPress }: ProductRowProps): React.JSX.Element {
+  const categoryName =
+    typeof item.category === 'object' && item.category !== null
+      ? item.category.name
+      : '—';
 
-function ItemRow({ item, onPress }: ItemRowProps): React.JSX.Element {
   return (
     <Pressable style={styles.row} onPress={onPress}>
       <View style={styles.rowLeft}>
         <View style={styles.avatar}>
-          <Text style={styles.avatarLetter}>{item.title.charAt(0).toUpperCase()}</Text>
+          <Text style={styles.avatarLetter}>{item.name.charAt(0).toUpperCase()}</Text>
         </View>
         <View style={styles.rowText}>
-          <Text style={styles.rowTitle} numberOfLines={1}>{item.title}</Text>
-          <Text style={styles.rowSub} numberOfLines={1}>{item.body}</Text>
+          <Text style={styles.rowTitle} numberOfLines={1}>{item.name}</Text>
+          <Text style={styles.rowSub} numberOfLines={1}>{categoryName}</Text>
         </View>
       </View>
-      <Text style={styles.chevron}>›</Text>
+      <Text style={styles.price}>${item.price.toFixed(2)}</Text>
     </Pressable>
   );
 }
-
-// ──────────────────────────────────────────────
-// ESTILOS
-// ──────────────────────────────────────────────
 
 const styles = StyleSheet.create({
   list: { flex: 1, backgroundColor: COLORS.background },
   content: { padding: SPACING.lg, gap: SPACING.sm, paddingBottom: SPACING.xxl },
   centered: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: SPACING.md, backgroundColor: COLORS.background },
-  errorText: { ...TYPOGRAPHY.h3, color: COLORS.errorLight },
+  errorText: { ...TYPOGRAPHY.h3, color: COLORS.error },
   retryBtn: { backgroundColor: COLORS.accent, borderRadius: RADIUS.sm, paddingHorizontal: SPACING.xl, paddingVertical: SPACING.sm },
-  retryText: { ...TYPOGRAPHY.body, fontWeight: '600', color: COLORS.text },
+  retryText: { ...TYPOGRAPHY.body, fontWeight: '600', color: '#FFFFFF' },
   empty: { ...TYPOGRAPHY.caption, textAlign: 'center', marginTop: SPACING.xxl },
   count: { ...TYPOGRAPHY.label, textTransform: 'uppercase', letterSpacing: 0.8, marginBottom: SPACING.sm },
   row: {
@@ -125,7 +114,7 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: RADIUS.sm,
-    backgroundColor: COLORS.background,
+    backgroundColor: COLORS.card,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -133,5 +122,5 @@ const styles = StyleSheet.create({
   rowText: { flex: 1 },
   rowTitle: { ...TYPOGRAPHY.body, fontWeight: '600' },
   rowSub: { ...TYPOGRAPHY.caption },
-  chevron: { fontSize: 20, color: COLORS.textMuted, marginLeft: SPACING.sm },
+  price: { ...TYPOGRAPHY.h3, color: COLORS.success },
 });

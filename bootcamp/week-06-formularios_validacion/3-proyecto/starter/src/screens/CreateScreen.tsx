@@ -1,8 +1,4 @@
-// src/screens/CreateScreen.tsx
-// Formulario para crear un nuevo ítem.
-// TODO: conectar useForm + zodResolver + useCreateItem mutation.
-
-import React from 'react';
+import React, { useState } from 'react';
 import {
   ActivityIndicator,
   KeyboardAvoidingView,
@@ -14,62 +10,51 @@ import {
   View,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 import { COLORS, RADIUS, SPACING, TYPOGRAPHY } from '../theme';
 import type { RootStackParamList } from '../navigation/types';
 import { FormField } from '../components/FormField';
-
-// TODO: importar useForm y zodResolver
-// import { useForm } from 'react-hook-form';
-// import { zodResolver } from '@hookform/resolvers/zod';
-// import { itemSchema, type ItemFormData } from '../schemas/itemSchema';
-
-// TODO: importar el hook de mutación
-// import { useCreateItem } from '../hooks/useItems';
+import { productSchema, type ProductFormData } from '../schemas/itemSchema';
+import { useCreateItem } from '../hooks/useItems';
+import { useCategories } from '../hooks/useCategories';
 
 type CreateNavProp = NativeStackNavigationProp<RootStackParamList, 'Create'>;
 
-// ──────────────────────────────────────────────
-// PANTALLA
-// ──────────────────────────────────────────────
-
 export function CreateScreen(): React.JSX.Element {
   const navigation = useNavigation<CreateNavProp>();
+  const [selectedCategory, setSelectedCategory] = useState('');
 
-  // TODO: inicializar useForm con zodResolver
-  // ─────────────────────────────────────────────
-  // const {
-  //   control,
-  //   handleSubmit,
-  //   formState: { errors, isSubmitting },
-  // } = useForm<ItemFormData>({
-  //   resolver: zodResolver(itemSchema),
-  //   defaultValues: { title: '', body: '' },
-  // });
+  const {
+    control,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+    setValue,
+  } = useForm<ProductFormData>({
+    resolver: zodResolver(productSchema),
+    defaultValues: { name: '', description: '', price: undefined, stock: 0, sku: '', category: '' },
+  });
 
-  // TODO: inicializar la mutation
-  // const { mutate: createItem } = useCreateItem();
+  const { mutate: createItem } = useCreateItem();
+  const { data: categories } = useCategories();
 
-  // Placeholder hasta que implementes el TODO
-  const isSubmitting = false;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const errors: any = {};
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const control: any = undefined;
-
-  // TODO: implementar la función onSubmit
-  // ─────────────────────────────────────────────
-  // function onSubmit(data: ItemFormData): void {
-  //   createItem(
-  //     { title: data.title, body: data.body ?? '', userId: 1 },
-  //     {
-  //       onSuccess: () => navigation.goBack(),
-  //     },
-  //   );
-  // }
-
-  const canSubmit = !isSubmitting;
+  function onSubmit(data: ProductFormData): void {
+    createItem(
+      {
+        name: data.name,
+        description: data.description || undefined,
+        price: data.price,
+        stock: data.stock,
+        sku: data.sku,
+        category: data.category,
+      },
+      {
+        onSuccess: () => navigation.goBack(),
+      },
+    );
+  }
 
   return (
     <KeyboardAvoidingView
@@ -81,52 +66,89 @@ export function CreateScreen(): React.JSX.Element {
         contentContainerStyle={styles.content}
         keyboardShouldPersistTaps="handled"
       >
-        <Text style={styles.hint}>
-          Adapta los campos de este formulario a tu dominio asignado.
-        </Text>
-
-        {/* TODO: reemplaza los FormField con los campos de tu dominio */}
-
         <FormField
           control={control}
-          name="title"
+          name="name"
           label="Nombre *"
-          placeholder="Nombre del ítem…"
+          placeholder="Nombre del producto…"
           returnKeyType="next"
-          errorMessage={errors.title?.message}
         />
 
         <FormField
           control={control}
-          name="body"
+          name="sku"
+          label="SKU *"
+          placeholder="Código SKU…"
+          returnKeyType="next"
+        />
+
+        <View style={styles.fieldRow}>
+          <View style={{ flex: 1 }}>
+            <FormField
+              control={control}
+              name="price"
+              label="Precio *"
+              placeholder="0.00"
+              keyboardType="decimal-pad"
+            />
+          </View>
+          <View style={{ flex: 1 }}>
+            <FormField
+              control={control}
+              name="stock"
+              label="Stock"
+              placeholder="0"
+              keyboardType="number-pad"
+            />
+          </View>
+        </View>
+
+        <View style={styles.field}>
+          <Text style={styles.label}>Categoría *</Text>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.chips}>
+            {categories?.map((cat) => {
+              const selected = selectedCategory === cat._id;
+              return (
+                <Pressable
+                  key={cat._id}
+                  style={[styles.chip, selected && styles.chipSelected]}
+                  onPress={() => {
+                    const newVal = selected ? '' : cat._id;
+                    setSelectedCategory(newVal);
+                    setValue('category', newVal, { shouldValidate: true });
+                  }}
+                >
+                  <Text style={[styles.chipText, selected && styles.chipTextSelected]}>
+                    {cat.name}
+                  </Text>
+                </Pressable>
+              );
+            })}
+          </ScrollView>
+          {errors.category && (
+            <Text style={styles.errorText}>{errors.category.message}</Text>
+          )}
+        </View>
+
+        <FormField
+          control={control}
+          name="description"
           label="Descripción"
           placeholder="Descripción opcional…"
           multiline
           numberOfLines={4}
           textAlignVertical="top"
-          errorMessage={errors.body?.message}
         />
-
-        {/* TODO: agrega campos adicionales de tu dominio aquí */}
-        {/* Ejemplo para Farmacia:
-        <FormField
-          control={control}
-          name="price"
-          label="Precio *"
-          placeholder="0.00"
-          keyboardType="numeric"
-          errorMessage={errors.price?.message}
-        /> */}
 
         <View style={styles.actions}>
           <Pressable
-            style={[styles.button, !canSubmit && styles.buttonDisabled]}
-            // onPress={handleSubmit(onSubmit)}   ← descomentar al implementar
-            disabled={!canSubmit}
+            style={[styles.button, isSubmitting && styles.buttonDisabled]}
+            onPress={handleSubmit(onSubmit)}
+            disabled={isSubmitting}
           >
             {isSubmitting
               ? <ActivityIndicator size="small" color={COLORS.background} />
-              : <Text style={styles.buttonText}>Crear ítem</Text>
+              : <Text style={styles.buttonText}>Crear producto</Text>
             }
           </Pressable>
 
@@ -134,21 +156,31 @@ export function CreateScreen(): React.JSX.Element {
             <Text style={styles.cancelText}>Cancelar</Text>
           </Pressable>
         </View>
-
       </ScrollView>
     </KeyboardAvoidingView>
   );
 }
 
-// ──────────────────────────────────────────────
-// ESTILOS
-// ──────────────────────────────────────────────
-
 const styles = StyleSheet.create({
   flex: { flex: 1, backgroundColor: COLORS.background },
   container: { flex: 1 },
   content: { padding: SPACING.lg, gap: SPACING.md, paddingBottom: SPACING.xxl },
-  hint: { ...TYPOGRAPHY.caption, fontStyle: 'italic' },
+  field: { gap: SPACING.xs },
+  fieldRow: { flexDirection: 'row', gap: SPACING.md },
+  label: { ...TYPOGRAPHY.label, textTransform: 'uppercase', letterSpacing: 0.6 },
+  chips: { flexDirection: 'row', gap: SPACING.sm, paddingVertical: SPACING.xs },
+  chip: {
+    paddingHorizontal: SPACING.md,
+    paddingVertical: SPACING.xs,
+    borderRadius: 999,
+    backgroundColor: COLORS.card,
+    borderWidth: 1,
+    borderColor: COLORS.border,
+  },
+  chipSelected: { backgroundColor: COLORS.accent, borderColor: COLORS.accent },
+  chipText: { ...TYPOGRAPHY.caption },
+  chipTextSelected: { color: COLORS.background, fontWeight: '600' },
+  errorText: { ...TYPOGRAPHY.caption, color: COLORS.error, minHeight: 16 },
   actions: { gap: SPACING.sm, marginTop: SPACING.sm },
   button: {
     backgroundColor: COLORS.accent,
@@ -157,7 +189,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   buttonDisabled: { opacity: 0.45 },
-  buttonText: { ...TYPOGRAPHY.body, fontWeight: '700' },
+  buttonText: { ...TYPOGRAPHY.body, fontWeight: '700', color: '#FFFFFF' },
   cancel: { alignItems: 'center', padding: SPACING.sm },
   cancelText: { ...TYPOGRAPHY.body, color: COLORS.textMuted },
 });
