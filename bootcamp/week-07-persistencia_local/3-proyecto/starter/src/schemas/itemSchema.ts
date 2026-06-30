@@ -1,23 +1,22 @@
-// src/schemas/itemSchema.ts
-// Schema Zod para validar el formulario de creación/edición.
-// TODO: adaptar los campos a tu dominio asignado.
-
 import { z } from 'zod';
 
 export const itemSchema = z.object({
-  title: z
+  name: z
     .string({ required_error: 'El nombre es requerido' })
     .min(1, 'El nombre no puede estar vacío')
-    .max(80, 'Máximo 80 caracteres'),
-  body: z
+    .max(150, 'Máximo 150 caracteres'),
+  description: z
     .string()
     .max(500, 'Máximo 500 caracteres')
     .optional()
     .or(z.literal('')),
-  // TODO: agrega campos de tu dominio
-  // Ejemplo (Farmacia): price: z.coerce.number().positive('Precio inválido')
-  // Ejemplo (Gimnasio): capacity: z.coerce.number().int().min(1)
+  price: z.coerce.number().positive('El precio debe ser mayor a 0'),
+  stock: z.coerce.number().int().min(0, 'El stock no puede ser negativo'),
+  sku: z
+    .string({ required_error: 'El SKU es requerido' })
+    .min(1, 'El SKU no puede estar vacío')
+    .max(50, 'Máximo 50 caracteres'),
+  category: z.string().min(1, 'Seleccioná una categoría'),
 });
 
-// El tipo se infiere del schema — no duplicar con interface manual
 export type ItemFormData = z.infer<typeof itemSchema>;

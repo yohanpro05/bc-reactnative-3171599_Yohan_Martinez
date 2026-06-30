@@ -1,4 +1,3 @@
-// src/navigation/RootNavigator.tsx
 import React from 'react';
 import { Pressable, Text } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -24,7 +23,7 @@ export function RootNavigator(): React.JSX.Element {
         name="Home"
         component={HomeScreen}
         options={({ navigation }) => ({
-          title: 'Ítems',
+          title: 'Productos',
           headerRight: () => (
             <Pressable
               onPress={() => navigation.navigate('Create')}
@@ -46,7 +45,7 @@ export function RootNavigator(): React.JSX.Element {
       <Stack.Screen
         name="Create"
         component={CreateScreen}
-        options={{ title: 'Crear ítem', presentation: 'modal' }}
+        options={{ title: 'Crear producto', presentation: 'modal' }}
       />
       <Stack.Screen
         name="Settings"

@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "Week 07 — Persistencia Local",
+    "name": "Ferremas — Productos",
     "slug": "week-07-persistencia-local",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -20,6 +20,9 @@
       },
       "package": "dev.ergrato.bootcamp.week07"
     },
-    "newArchEnabled": true
+    "newArchEnabled": true,
+    "web": {
+      "bundler": "metro"
+    }
   }
 }

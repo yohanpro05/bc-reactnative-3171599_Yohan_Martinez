@@ -2,107 +2,78 @@
 
 ## 🎯 Objetivo
 
-Agregar una **capa de persistencia completa** a la app de tu dominio asignado:
-
-1. **MMKV** — preferencias del usuario (orden de lista, modo compacto, items por página)
-2. **AsyncStorage** — caché offline de la lista de ítems (mostrar datos sin red)
-3. **Expo SecureStore** — almacenar un dato sensible del dominio (token de sesión simulado o código de acceso)
+Implementar persistencia local en una app React Native usando MMKV (preferencias), AsyncStorage (caché offline) y SecureStore (datos sensibles), aplicados al dominio de **ferretería**.
 
 ## 📋 Tu Dominio Asignado
 
-**Dominio**: [El instructor te asignará tu dominio único al inicio del bootcamp]
-
-> 📌 Adapta cada pantalla, nombre de campo y lógica de negocio a tu dominio.
-> No copies implementaciones de otros aprendices.
+**Dominio**: Ferretería (Product: name, price, stock, sku, category, description, active)
 
 ## 🗂️ Estructura del Starter
 
 ```
 starter/
-├── App.tsx                      # Entry point — QueryClient + Navigation
-├── app.json                     # Config Expo
-├── package.json                 # Dependencias
+├── App.tsx                              — QueryClientProvider + NavigationContainer
+├── app.json
+├── package.json
 ├── tsconfig.json
 └── src/
-    ├── storage/
-    │   └── mmkv.ts              # ✅ Instancia MMKV global — YA IMPLEMENTADO
-    ├── types/
-    │   └── index.ts             # Tipos del dominio
-    ├── theme/
-    │   └── index.ts             # Colores, espaciado
-    ├── services/
-    │   └── api.ts               # Axios client
-    ├── schemas/
-    │   └── itemSchema.ts        # Zod schema (de semana 06)
-    ├── components/
-    │   └── FormField.tsx        # Componente reutilizable (de semana 06)
-    ├── hooks/
-    │   ├── useItems.ts          # TanStack Query + caché AsyncStorage — TODO
-    │   └── usePreferences.ts   # MMKV hooks — TODO
     ├── navigation/
-    │   ├── types.ts
-    │   └── RootNavigator.tsx   # Home / Create / Settings
-    └── screens/
-        ├── HomeScreen.tsx       # Lista + banner offline — YA IMPLEMENTADO
-        ├── CreateScreen.tsx     # Del proyecto semana 06 — YA IMPLEMENTADO
-        └── SettingsScreen.tsx   # Preferencias MMKV + SecureStore — TODO
-```
-
-## 🚀 Cómo ejecutar
-
-```bash
-cd starter
-pnpm install
-
-# Requiere build nativo (MMKV)
-npx expo run:ios       # o
-npx expo run:android
+    │   ├── types.ts                     — RootStackParamList
+    │   └── RootNavigator.tsx            — Stack: Home, Create, Settings
+    ├── schemas/
+    │   └── itemSchema.ts                — z.object + ItemFormData
+    ├── storage/
+    │   └── mmkv.ts                      — Instancia global de MMKV
+    ├── components/
+    │   └── FormField.tsx                — Controller + TextInput + error
+    ├── screens/
+    │   ├── HomeScreen.tsx               — lista con cache offline + banner + preferencias
+    │   ├── CreateScreen.tsx             — formulario Create con RHF + Zod
+    │   └── SettingsScreen.tsx           — MMKV preferences + SecureStore demo
+    ├── hooks/
+    │   ├── usePreferences.ts            — MMKV getters/setters síncronos
+    │   └── useItems.ts                  — useItems con AsyncStorage cache + useCreateItem
+    ├── services/
+    │   └── api.ts                       — Axios instance → Express API
+    ├── types/
+    │   └── index.ts                     — Product, ItemsWithSource, CreateProductPayload
+    └── theme/
+        └── index.ts
 ```
 
 ## ✅ Requisitos Funcionales
 
-### 1. Hook `usePreferences` (MMKV)
+1. **Preferencias con MMKV**: modo compacto, orden de lista (A→Z / Z→A), items por página. Cambios en tiempo real sin botón "Guardar".
+2. **Cache offline con AsyncStorage**: `useItems` guarda la respuesta en AsyncStorage. Si la API falla, retorna datos cacheados con `source: 'cache'`.
+3. **Banner offline**: cuando `source === 'cache'`, HomeScreen muestra un banner naranja con texto de advertencia.
+4. **SecureStore**: guardar/leer/eliminar un PIN con visualización enmascarada (ej: "12••34").
+5. **CreateScreen**: formulario con RHF + Zod, categorías en chips, mutation con TanStack Query.
+6. **Build nativo**: la app debe correr con `npx expo run:android` (MMKV requiere native).
 
-- [ ] Exporta al menos 3 preferencias: `sortOrder`, `compactMode` (o equivalentes de tu dominio), `itemsPerPage`
-- [ ] Usa `useMMKVString` / `useMMKVBoolean` / `useMMKVNumber` (reactivos)- [ ] Las preferencias persisten sin `async/await` y sin reiniciar la app
+## 🚀 Cómo ejecutar
 
-### 2. Caché offline en `useItems` (AsyncStorage)
+```bash
+# 1. Iniciar API Express (week-06)
+cd ../../bc-expressjs-3171599-Yohan_Martinez/bootcamp/week-06-mongodb_mongoose/3-proyecto/starter
+pnpm dev
 
-- [ ] Guarda los ítems en caché cuando hay red exitosa
-- [ ] Carga desde caché cuando la llamada de red falla
-- [ ] `HomeScreen` muestra un banner "⚠️ Mostrando datos sin red" cuando se usa caché
+# 2. Build nativo
+cd bc-reactnative-3171599-Yohan_Martinez/bootcamp/week-07-persistencia_local/3-proyecto/starter
+pnpm install
+npx expo run:android
+```
 
-### 3. `SettingsScreen` (MMKV + SecureStore)
+## 📸 Screenshots
 
-- [ ] Muestra switches/pickers para cada preferencia de `usePreferences`
-- [ ] Persiste los cambios en tiempo real (sin botón de "Guardar")
-- [ ] Incluye sección "Seguridad": botón para guardar/leer un dato sensible con SecureStore
-- [ ] El dato sensible NO puede aparecer en texto plano en pantalla (solo confirmación)
-
-### 4. `HomeScreen` actualizado
-
-- [ ] Aplica `sortOrder` de `usePreferences` para ordenar la lista
-- [ ] Aplica `compactMode` para cambiar la UI (menos info en modo compacto)
-- [ ] Muestra items cacheados con banner visible cuando offline
-
-## 💡 Ejemplos de Adaptación por Dominio
-
-| Dominio | Preferencias MMKV | Dato SecureStore |
-|---------|-------------------|------------------|
-| 📖 Biblioteca | Ordenar por: título/autor/fecha | Código de empleado |
-| 💊 Farmacia | Ordenar por: nombre/precio/stock | PIN de caja |
-| 🏋️ Gimnasio | Ver: miembros activos/vencidos | Código de acceso gym |
-| 🍽️ Restaurante | Ordenar por: mesa/tiempo/estado | Clave de cocina |
-| 🏥 Hospital | Filtrar por: urgencia/sala/médico | Código de turno médico |
-
-## 🛠️ Entregables
-
-1. App funcional en simulador iOS y/o Android (requiere build nativo)
-2. `usePreferences.ts` completado con mínimo 3 preferencias MMKV
-3. `useItems.ts` con caché AsyncStorage y fallback offline
-4. `SettingsScreen.tsx` completado con MMKV + SecureStore
-5. README actualizado con descripción de tu dominio e implementación
+| Pantalla | Descripción |
+|----------|-------------|
+| ![Home](screenshots/01_home.png) | Lista de productos con datos de API |
+| ![Settings](screenshots/02_settings.png) | Preferencias MMKV + SecureStore |
+| ![Create vacío](screenshots/03_create_empty.png) | Formulario de creación inicial |
+| ![Errores validación](screenshots/04_validation_errors.png) | Errores de validación Zod |
+| ![Formulario lleno](screenshots/05_filled_form.png) | Formulario con datos completos |
+| ![Offline cache](screenshots/06_offline_cache.png) | Banner de caché offline |
 
 ## 📊 Criterios de Evaluación
 
-Ver [rubrica-evaluacion.md](../rubrica-evaluacion.md)
+Ver [../../rubrica-evaluacion.md](../../rubrica-evaluacion.md)

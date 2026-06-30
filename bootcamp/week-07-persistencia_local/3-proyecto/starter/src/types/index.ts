@@ -1,19 +1,31 @@
-// src/types/index.ts
-// Tipos globales del proyecto.
-// TODO: adaptar 'Item' a los campos de tu dominio asignado.
-
-export interface Item {
-  id: number;
-  title: string;
-  body: string;
-  userId: number;
-  // TODO: agrega propiedades específicas de tu dominio
-  // Ejemplo (Farmacia): price: number; stock: number; category: string;
-  // Ejemplo (Biblioteca): author: string; isbn: string; available: boolean;
+export interface Category {
+  _id: string;
+  name: string;
 }
 
-// Tipo para el estado offline de la lista
+export interface Product {
+  _id: string;
+  name: string;
+  description?: string;
+  price: number;
+  stock: number;
+  sku: string;
+  category: Category | string;
+  active: boolean;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
 export interface ItemsWithSource {
-  items: Item[];
+  items: Product[];
   source: 'network' | 'cache';
+}
+
+export interface CreateProductPayload {
+  name: string;
+  description?: string;
+  price: number;
+  stock: number;
+  sku: string;
+  category: string;
 }

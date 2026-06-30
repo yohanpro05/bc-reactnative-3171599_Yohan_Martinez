@@ -1,35 +1,25 @@
-// src/services/api.ts
 import axios from 'axios';
-import type { Item } from '../types';
+import type { CreateProductPayload, Product } from '../types';
 
-// JSONPlaceholder como backend de práctica
 const api = axios.create({
-  baseURL: 'https://jsonplaceholder.typicode.com',
+  baseURL: process.env['EXPO_PUBLIC_API_URL'] ?? 'http://localhost:3000/api/v1',
   timeout: 8000,
   headers: { 'Content-Type': 'application/json' },
 });
 
-export async function fetchItems(): Promise<Item[]> {
-  const { data } = await api.get<Item[]>('/posts', { params: { _limit: 15 } });
-  return data;
+export async function fetchItems(): Promise<Product[]> {
+  const { data } = await api.get<{ data: Product[] }>('/products');
+  return data.data;
 }
 
-export async function fetchItemById(id: number | string): Promise<Item> {
-  const { data } = await api.get<Item>(`/posts/${id}`);
+export async function fetchItemById(id: string): Promise<Product> {
+  const { data } = await api.get<Product>(`/products/${id}`);
   return data;
 }
 
 export async function createItem(
-  payload: Omit<Item, 'id'>,
-): Promise<Item> {
-  const { data } = await api.post<Item>('/posts', payload);
-  return data;
-}
-
-export async function updateItem(
-  id: number | string,
-  payload: Partial<Omit<Item, 'id'>>,
-): Promise<Item> {
-  const { data } = await api.put<Item>(`/posts/${id}`, payload);
+  payload: CreateProductPayload,
+): Promise<Product> {
+  const { data } = await api.post<Product>('/products', payload);
   return data;
 }
